@@ -1,11 +1,18 @@
 from fastapi import FastAPI
-from .core.database import  init_db
-app = FastAPI()
+from contextlib import asynccontextmanager
+from .core.database import init_db
 
 
-connection = init_db()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # TODO: log info
+    await init_db()
+    yield
 
-print(connection)
+
+app = FastAPI(lifespan=lifespan)
+
+
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Running distances microservice"}

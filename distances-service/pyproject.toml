@@ -11,6 +11,7 @@ black = "^24.10.0"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 beanie = "^1.27.0"
 motor = "^3.6.0"
+structlog = "^24.4.0"
 
 
 [build-system]
