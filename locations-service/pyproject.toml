@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "locations-service"
+version = "0.1.0"
+description = ""
+authors = ["jeanpaulsb <jeanpaulsierraboom@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+black = "^24.10.0"
+fastapi = "^0.115.5"
+beanie = "^1.27.0"
+motor = "^3.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
