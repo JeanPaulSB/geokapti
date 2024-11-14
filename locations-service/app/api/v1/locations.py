@@ -2,7 +2,7 @@ import bson
 from fastapi import APIRouter, status, Depends
 from typing import List
 from app.models.locations import Locations
-from app.schemas.location import LocationOut, LocationUpdate,Location
+from app.schemas.location import LocationOut, LocationUpdate, Location
 from app.core.logger import logger
 from app.api.deps import is_valid_location
 from app.core.exceptions import LocationNotFound
@@ -43,9 +43,7 @@ async def delete_location(location_id: str):
 @router.put(
     "/{location_id}", response_model=LocationUpdate, status_code=status.HTTP_200_OK
 )
-async def update_location(
-    location_id: str, location_data: LocationUpdate = Depends(is_valid_location)
-):
+async def update_location(location_id: str, location_data: LocationUpdate):
     try:
         location = await Locations.find_one(Locations.id == ObjectId(location_id))
     except bson.errors.InvalidId:

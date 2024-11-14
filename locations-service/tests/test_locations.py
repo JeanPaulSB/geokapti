@@ -123,7 +123,6 @@ async def test_update_location_with_invalid_coordinates(
         assert response.status_code == 422
 
 
-
 @pytest.mark.anyio
 async def test_delete_location(test_client, initialized_db) -> None:
     # Arrange
