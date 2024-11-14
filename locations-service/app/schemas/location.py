@@ -12,6 +12,7 @@ class Location(BaseModel):
 class LocationOut(BaseModel):
     id: str
 
+
 class LocationUpdate(BaseModel):
     name: str
     latitude: float

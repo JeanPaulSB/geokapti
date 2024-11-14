@@ -4,6 +4,7 @@ from app.schemas.location import LocationUpdate
 from bson import ObjectId
 from httpx import AsyncClient
 
+
 # Helper function to populate db
 async def create_location(name: str, latitude: float, longitude: float) -> Locations:
     location = Locations(name=name, latitude=latitude, longitude=longitude)
@@ -73,13 +74,16 @@ async def test_get_locations(test_client, initialized_db) -> None:
     assert response.status_code == 200
     assert len(data) == 10
 
+
 @pytest.mark.anyio
 async def test_update_location(test_client, initialized_db) -> None:
     # Arrange
     location = await create_location("location", 4, 5)
-    location_data = LocationUpdate(name="Athenas",latitude=40,longitude=20)
+    location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
-    response = await test_client.put(f"/locations/{location.id}", json=location_data.dict())
+    response = await test_client.put(
+        f"/locations/{location.id}", json=location_data.dict()
+    )
     data = response.json()
     # Arrange
     assert response.status_code == 200
@@ -92,19 +96,26 @@ async def test_update_location(test_client, initialized_db) -> None:
 async def test_update_location_with_invalid_id(test_client, initialized_db) -> None:
     # Arrange
     random_id = "6736111bab0d0a06f5fa436"
-    location_data = LocationUpdate(name="Athenas",latitude=40,longitude=20)
+    location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
-    response = await test_client.put(f"/locations/{random_id}", json=location_data.dict())
+    response = await test_client.put(
+        f"/locations/{random_id}", json=location_data.dict()
+    )
     # Arrange
     assert response.status_code == 404
 
+
 @pytest.mark.anyio
-async def test_update_location_with_invalid_coordinates(test_client, initialized_db) -> None:
+async def test_update_location_with_invalid_coordinates(
+    test_client, initialized_db
+) -> None:
     # Arrange
     location = await create_location("location", 4, 5)
     location_data = LocationUpdate(name="Athenas", latitude=300, longitude=450)
     # Act
-    response = await test_client.put(f"/locations/{location.id}", json=location_data.dict())
+    response = await test_client.put(
+        f"/locations/{location.id}", json=location_data.dict()
+    )
     # Arrange
     assert response.status_code == 400
 

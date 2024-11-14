@@ -2,7 +2,7 @@ import bson
 from fastapi import APIRouter, status, Depends
 from typing import List
 from app.models.locations import Locations
-from app.schemas.location import LocationOut,LocationUpdate
+from app.schemas.location import LocationOut, LocationUpdate
 from app.core.logger import logger
 from app.api.deps import is_valid_location
 from app.core.exceptions import LocationNotFound
@@ -39,15 +39,26 @@ async def delete_location(location_id: str):
     logger.info(f"Deleting location {location_id}")
     await location.delete()
 
-@router.put("/{location_id}", response_model=LocationUpdate, status_code=status.HTTP_200_OK)
-async def update_location(location_id: str, location_data: LocationUpdate = Depends(is_valid_location)):
+
+@router.put(
+    "/{location_id}", response_model=LocationUpdate, status_code=status.HTTP_200_OK
+)
+async def update_location(
+    location_id: str, location_data: LocationUpdate = Depends(is_valid_location)
+):
     try:
-        location = await (Locations.find_one(Locations.id == ObjectId(location_id)))
+        location = await Locations.find_one(Locations.id == ObjectId(location_id))
     except bson.errors.InvalidId:
         logger.error(f"Location not found with id {location_id}")
         raise LocationNotFound()
-    await location.update({"$set": {Locations.name: location_data.name, Locations.longitude: location_data.longitude, Locations.latitude: location_data.latitude}})
+    await location.update(
+        {
+            "$set": {
+                Locations.name: location_data.name,
+                Locations.longitude: location_data.longitude,
+                Locations.latitude: location_data.latitude,
+            }
+        }
+    )
     logger.info(f"Updating location {location_id}")
     return location
-
-
