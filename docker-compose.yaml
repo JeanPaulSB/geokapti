@@ -1,4 +1,7 @@
 version: '3.8'
+networks:
+  shared:
+    driver: bridge
 services:
   mongodb:
     image: mongo:6-jammy
@@ -6,6 +9,8 @@ services:
       - '27017:27017'
     volumes:
       - dbdata:/data/db
+    networks:
+      - shared
   distances_service:
     build:
       context: ./distances-service/
@@ -16,6 +21,8 @@ services:
       - "8080:8080"
     depends_on:
       - mongodb
+    networks:
+      - shared
   locations_service:
     build:
       context: ./locations-service
@@ -26,6 +33,7 @@ services:
       - "8081:8081"
     depends_on:
       - mongodb
-
+    networks:
+      - shared
 volumes:
   dbdata:
