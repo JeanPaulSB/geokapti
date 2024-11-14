@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "locations-service"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "This project is a microservice exposed as a REST API for geokapti. It deals with the entity of Location for the business case, where users can perform CRUD operations over it, including validations."
 authors = ["jeanpaulsb <jeanpaulsierraboom@gmail.com>"]
 readme = "README.md"
 

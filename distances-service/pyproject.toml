@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "distances-service"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["jeanpaulsb <jeanpaulsierraboom@gmail.com>"]
 readme = "README.md"
