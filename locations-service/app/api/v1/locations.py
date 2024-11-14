@@ -2,7 +2,7 @@ import bson
 from fastapi import APIRouter, status, Depends
 from typing import List
 from app.models.locations import Locations
-from app.schemas.location import LocationOut, LocationUpdate
+from app.schemas.location import LocationOut, LocationUpdate,Location
 from app.core.logger import logger
 from app.api.deps import is_valid_location
 from app.core.exceptions import LocationNotFound
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/locations", tags=["locations"])
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=LocationOut)
-async def create_location(location: Locations = Depends(is_valid_location)):
+async def create_location(location: Location):
     location = await Locations(**location.dict()).save()
     logger.info("Saving new location")
     return LocationOut(id=str(location.id))

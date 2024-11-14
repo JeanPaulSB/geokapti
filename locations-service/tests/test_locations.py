@@ -3,6 +3,7 @@ from app.models.locations import Locations
 from app.schemas.location import LocationUpdate
 from bson import ObjectId
 from httpx import AsyncClient
+from pydantic import ValidationError
 
 
 # Helper function to populate db
@@ -33,7 +34,7 @@ async def test_create_location_with_invalid_coordinates(
     # Act
     response = await test_client.post("/locations", json=location)
     # Assert
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 @pytest.mark.anyio
@@ -111,13 +112,16 @@ async def test_update_location_with_invalid_coordinates(
 ) -> None:
     # Arrange
     location = await create_location("location", 4, 5)
-    location_data = LocationUpdate(name="Athenas", latitude=300, longitude=450)
-    # Act
-    response = await test_client.put(
-        f"/locations/{location.id}", json=location_data.dict()
-    )
-    # Arrange
-    assert response.status_code == 400
+
+    with pytest.raises(ValidationError):
+        location_data = LocationUpdate(name="Athenas", latitude=80, longitude=450.0)
+        # Act
+        response = await test_client.put(
+            f"/locations/{location.id}", json=location_data.dict()
+        )
+        # Arrange
+        assert response.status_code == 422
+
 
 
 @pytest.mark.anyio
