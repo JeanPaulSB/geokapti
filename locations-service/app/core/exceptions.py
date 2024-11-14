@@ -22,3 +22,11 @@ class NotFound(DetailedHTTPException):
 class BadRequest(DetailedHTTPException):
     STATUS_CODE = status.HTTP_400_BAD_REQUEST
     DETAIL = "Bad Request"
+
+
+class BadLocation(BadRequest):
+    DETAIL = "Wrong values for latitude and/or longitude."
+
+
+class LocationNotFound(NotFound):
+    DETAIL = "Location not found"
