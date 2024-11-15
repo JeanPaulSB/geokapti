@@ -1,7 +1,10 @@
 from math import radians, cos, sin, asin, sqrt, atan2
 
 
-def haversine(lon1, lat1, lon2, lat2):
+# computes distance between two points of a sphere
+def haversine_distance(location1, location2):
+    lat1, lon1 = location1["latitude"], location1["longitude"]
+    lat2, lon2 = location2["latitude"], location2["longitude"]
     EARTH_RADIUS = 6378  # in KM
     dlat = radians(lat2 - lat1)
     dlon = radians(lon2 - lon1)
