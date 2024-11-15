@@ -27,6 +27,4 @@ app.include_router(router)
 app.include_router(health_router)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Running locations microservice"}
+
