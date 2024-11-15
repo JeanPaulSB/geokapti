@@ -31,7 +31,7 @@ to solve a traveling problem.
 - [x] Use te haversine formula for distance between points instead of the cartesian distance.
 
 ### Diagram
-
+![diagram overview](images/architectural_diagram.png)
 As the diagram shows. All the project was configured to run with docker, there is a docker compose file that contains the following services.
 - distances microservice
 - locations microservice
