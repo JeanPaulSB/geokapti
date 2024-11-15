@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "locations-service"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "This project is a microservice exposed as a REST API for geokapti. It deals with the entity of Location for the business case, where users can perform CRUD operations over it, including validations."
 authors = ["jeanpaulsb <jeanpaulsierraboom@gmail.com>"]
 readme = "README.md"
 
@@ -12,6 +12,12 @@ fastapi = {extras = ["standard"], version = "^0.115.5"}
 beanie = "^1.27.0"
 motor = "^3.6.0"
 uvicorn = "^0.32.0"
+structlog = "^24.4.0"
+asgi-lifespan = "^2.1.0"
+pytest = "^8.3.3"
+pytest-asyncio = "^0.24.0"
+redis = "^5.2.0"
+
 
 
 [build-system]
