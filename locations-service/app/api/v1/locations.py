@@ -9,7 +9,7 @@ from app.core.exceptions import LocationNotFound
 from bson import ObjectId
 
 
-router = APIRouter(prefix="/locations", tags=["locations"])
+router = APIRouter(tags=["locations"])
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=LocationOut)
@@ -37,19 +37,20 @@ async def read_location(location_id: str):
 async def delete_location(location_id: str):
     location = await Locations.find_one(Locations.id == ObjectId(location_id))
     logger.info(f"Deleting location {location_id}")
-    await location.delete()
+    if location:
+        await location.delete()
+    else:
+        raise LocationNotFound()
 
 
 @router.put(
     "/{location_id}", response_model=LocationUpdate, status_code=status.HTTP_200_OK
 )
 async def update_location(location_id: str, location_data: LocationUpdate):
-    try:
-        location = await Locations.find_one(Locations.id == ObjectId(location_id))
-    except bson.errors.InvalidId:
-        logger.error(f"Location not found with id {location_id}")
-        raise LocationNotFound()
-    await location.update(
+    location = await Locations.find_one(Locations.id == ObjectId(location_id))
+    if location:
+
+        await location.update(
         {
             "$set": {
                 Locations.name: location_data.name,
@@ -58,5 +59,8 @@ async def update_location(location_id: str, location_data: LocationUpdate):
             }
         }
     )
-    logger.info(f"Updating location {location_id}")
-    return location
+        logger.info(f"Updating location {location_id}")
+        return location
+    else:
+        logger.error(f"Location not found with id {location_id}")
+        raise LocationNotFound()
