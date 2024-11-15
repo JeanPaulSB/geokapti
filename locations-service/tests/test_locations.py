@@ -82,9 +82,7 @@ async def test_update_location(test_client, initialized_db) -> None:
     location = await create_location("location", 4, 5)
     location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
-    response = await test_client.put(
-        f"/{location.id}", json=location_data.dict()
-    )
+    response = await test_client.put(f"/{location.id}", json=location_data.dict())
     data = response.json()
     # Arrange
     assert response.status_code == 200
@@ -99,9 +97,7 @@ async def test_update_location_with_invalid_id(test_client, initialized_db) -> N
     random_id = "6736111bab0d0a06f5fa436d"
     location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
-    response = await test_client.put(
-        f"/{random_id}", json=location_data.dict()
-    )
+    response = await test_client.put(f"/{random_id}", json=location_data.dict())
     # Arrange
     assert response.status_code == 404
 
@@ -116,9 +112,7 @@ async def test_update_location_with_invalid_coordinates(
     with pytest.raises(ValidationError):
         location_data = LocationUpdate(name="Athenas", latitude=80, longitude=450.0)
         # Act
-        response = await test_client.put(
-            f"/{location.id}", json=location_data.dict()
-        )
+        response = await test_client.put(f"/{location.id}", json=location_data.dict())
         # Arrange
         assert response.status_code == 422
 

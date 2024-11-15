@@ -51,14 +51,14 @@ async def update_location(location_id: str, location_data: LocationUpdate):
     if location:
 
         await location.update(
-        {
-            "$set": {
-                Locations.name: location_data.name,
-                Locations.longitude: location_data.longitude,
-                Locations.latitude: location_data.latitude,
+            {
+                "$set": {
+                    Locations.name: location_data.name,
+                    Locations.longitude: location_data.longitude,
+                    Locations.latitude: location_data.latitude,
+                }
             }
-        }
-    )
+        )
         logger.info(f"Updating location {location_id}")
         return location
     else:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.core.logger import logger
 
-health_router = APIRouter( tags=["health"])
+health_router = APIRouter(tags=["health"])
 
 
 @health_router.get("/health", status_code=204)
