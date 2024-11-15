@@ -22,6 +22,8 @@ app = FastAPI(
         "url": "https://github.com/JeanPaulSB",
         "email": "jeanpaulsierraboom@gmail.com",
     },
+    root_path="/api/locations",
+    docs_url="/docs",
 )
 app.include_router(router)
 app.include_router(health_router)
