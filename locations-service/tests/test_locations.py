@@ -20,7 +20,7 @@ async def test_create_location_with_valid_coordinates(
     # Arrange
     location = {"name": "JPL Lab", "latitude": 40, "longitude": 20}
     # Act
-    response = await test_client.post("/locations", json=location)
+    response = await test_client.post("/", json=location)
     # Assert
     assert response.status_code == 201
 
@@ -32,7 +32,7 @@ async def test_create_location_with_invalid_coordinates(
     # Arrange
     location = {"name": "Narnia", "latitude": 40, "longitude": 200}
     # Act
-    response = await test_client.post("/locations", json=location)
+    response = await test_client.post("/", json=location)
     # Assert
     assert response.status_code == 422
 
@@ -42,7 +42,7 @@ async def test_get_location(test_client, initialized_db) -> None:
     # Arrange
     location = await create_location("random_location", 40, 20)
     # Act
-    response = await test_client.get(f"/locations/{str(location.id)}")
+    response = await test_client.get(f"/{str(location.id)}")
     data = response.json()
     # Assert
     assert response.status_code == 200
@@ -57,7 +57,7 @@ async def test_get_location_with_invalid_id(test_client, initialized_db) -> None
     # Arrange
     random_id = "6736111bab0d0a06f5fa436"
     # Act
-    response = await test_client.get(f"/locations/{random_id}")
+    response = await test_client.get(f"/{random_id}")
     # Assert
     assert response.status_code == 404
 
@@ -69,7 +69,7 @@ async def test_get_locations(test_client, initialized_db) -> None:
         await create_location("random_location", i * 2, i * 2) for i in range(10)
     ]
     # Act
-    response = await test_client.get("/locations")
+    response = await test_client.get("/")
     data = response.json()
     # Assert
     assert response.status_code == 200
@@ -83,7 +83,7 @@ async def test_update_location(test_client, initialized_db) -> None:
     location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
     response = await test_client.put(
-        f"/locations/{location.id}", json=location_data.dict()
+        f"/{location.id}", json=location_data.dict()
     )
     data = response.json()
     # Arrange
@@ -96,11 +96,11 @@ async def test_update_location(test_client, initialized_db) -> None:
 @pytest.mark.anyio
 async def test_update_location_with_invalid_id(test_client, initialized_db) -> None:
     # Arrange
-    random_id = "6736111bab0d0a06f5fa436"
+    random_id = "6736111bab0d0a06f5fa436d"
     location_data = LocationUpdate(name="Athenas", latitude=40, longitude=20)
     # Act
     response = await test_client.put(
-        f"/locations/{random_id}", json=location_data.dict()
+        f"/{random_id}", json=location_data.dict()
     )
     # Arrange
     assert response.status_code == 404
@@ -117,7 +117,7 @@ async def test_update_location_with_invalid_coordinates(
         location_data = LocationUpdate(name="Athenas", latitude=80, longitude=450.0)
         # Act
         response = await test_client.put(
-            f"/locations/{location.id}", json=location_data.dict()
+            f"/{location.id}", json=location_data.dict()
         )
         # Arrange
         assert response.status_code == 422
@@ -128,6 +128,6 @@ async def test_delete_location(test_client, initialized_db) -> None:
     # Arrange
     location = await create_location("location", 4, 5)
     # Act
-    response = await test_client.delete(f"/locations/{location.id}")
+    response = await test_client.delete(f"/{location.id}")
     # Assert
     assert response.status_code == 204
