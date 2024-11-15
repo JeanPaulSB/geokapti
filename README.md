@@ -13,6 +13,7 @@ to solve a traveling problem.
 * Implements internal communication between microservices.
 * Implements logging.
 * Uses the haversine formula to compute distances.
+* Uses black as a formatter.
 
 ## Solution
 ### Requirements met
@@ -98,7 +99,7 @@ git clone https://github.com/JeanPaulSB/geokapti.git
 ```
 docker compose up -d
 ```
-3. **Up and running!!!**, access to the microservices on localhost:3000/api/distances and localhost:3000/api/locations
+3. **Up and running!!!**, access to the microservices on http://localhost:3000/api/distances and http://localhost:3000/api/locations
 ## Running the tests
 1. Go to the desired microservice.
 ```
