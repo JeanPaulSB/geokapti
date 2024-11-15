@@ -67,3 +67,5 @@ services:
       - shared
 volumes:
   dbdata:
+
+
